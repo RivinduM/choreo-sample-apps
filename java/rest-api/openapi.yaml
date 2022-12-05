@@ -53,6 +53,16 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/v1/products/db:
+    get:
+      tags:
+        - default
+      summary: get
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/products/1:
     delete:
       tags:

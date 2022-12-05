@@ -118,4 +118,8 @@ public class ProductService {
         }
         return null;
     }
+
+    public String dbConnection() {
+        return "db connection made!!";
+    }
 }

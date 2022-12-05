@@ -34,6 +34,11 @@ public class ProductController {
         return service.updateProduct(product);
     }
 
+    @GetMapping("/db")
+    public String dbConnection() {
+        return service.dbConnection();
+    }
+
     @DeleteMapping("{id}")
     public String deleteProduct(@PathVariable int id) {
         return service.deleteProduct(id);
