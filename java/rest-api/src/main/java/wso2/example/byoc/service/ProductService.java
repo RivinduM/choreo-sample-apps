@@ -144,12 +144,9 @@ public class ProductService {
                 result = "error 1";
                 throwables.printStackTrace();
             }
-        }
-        catch (Exception e)
-        {
-            result = "error 2";
+        } catch (Exception e) {
+            result = e.getMessage();
             e.printStackTrace();
-
         }
         finally
         {
