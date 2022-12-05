@@ -120,6 +120,50 @@ public class ProductService {
     }
 
     public String dbConnection() {
-        return "db connection made!!";
+        String result = "db connection made!!";
+
+        Connection conn = null;
+
+        try
+        {
+            result = "trying";
+            String getConsentResourcePrepStatement = "INSERT INTO testtable (ID) VALUES (?)";
+            conn = DriverManager.getConnection("jdbc:mysql://db4free.net:3306/testchoreo","crootuser","crootuser");
+            System.out.println ("Database connection established");
+            result = "Database connection established";
+
+            try (PreparedStatement getConsentResourcePreparedStmt =
+                         conn.prepareStatement(getConsentResourcePrepStatement)) {
+                String uuid = String.valueOf(UUID.randomUUID());
+                result = "uuid";
+                getConsentResourcePreparedStmt.setString(1, uuid);
+                getConsentResourcePreparedStmt.execute();
+                System.out.println ("Database query executed : " + uuid);
+                result = "Database query executed : " + uuid;
+            } catch (SQLException throwables) {
+                result = "error 1";
+                throwables.printStackTrace();
+            }
+        }
+        catch (Exception e)
+        {
+            result = "error 2";
+            e.printStackTrace();
+
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                try
+                {
+                    conn.close ();
+                    System.out.println ("Database connection terminated");
+                    result = "Database connection terminated";
+                }
+                catch (Exception e) { /* ignore close errors */ }
+            }
+        }
+        return result;
     }
 }
