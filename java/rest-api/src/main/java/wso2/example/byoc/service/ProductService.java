@@ -17,7 +17,41 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
-    public Product saveProduct(Product product) {
+    public Product saveProduct(Product product) {Connection conn = null;
+
+        try
+        {
+            String getConsentResourcePrepStatement = "INSERT INTO testtable (ID) VALUES (?)";
+            conn = DriverManager.getConnection("jdbc:mysql://db4free.net:3306/testchoreo","crootuser","crootuser");
+            System.out.println ("Database connection established");
+
+            try (PreparedStatement getConsentResourcePreparedStmt =
+                         conn.prepareStatement(getConsentResourcePrepStatement)) {
+                String uuid = String.valueOf(UUID.randomUUID());
+                getConsentResourcePreparedStmt.setString(1, uuid);
+                getConsentResourcePreparedStmt.execute();
+                System.out.println ("Database query executed : " + uuid);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                try
+                {
+                    conn.close ();
+                    System.out.println ("Database connection terminated");
+                }
+                catch (Exception e) { /* ignore close errors */ }
+            }
+        }
         return repository.save(product);
     }
 
