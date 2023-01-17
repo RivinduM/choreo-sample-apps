@@ -1,7 +1,5 @@
 package wso2.example.byoc.service;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import wso2.example.byoc.model.Product;
 import wso2.example.byoc.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import java.util.UUID;
 
 @Service
 public class ProductService {
-
-    private static final Log log = LogFactory.getLog(ProductService.class);
 
     @Autowired
     private ProductRepository repository;
@@ -44,33 +40,26 @@ public class ProductService {
     }
 
     public String dbConnection() {
-        String result = "db connection made!!";
-
+        String uuid = String.valueOf(UUID.randomUUID());
         Connection conn = null;
 
         try
         {
-            result = "trying";
             String getConsentResourcePrepStatement = "INSERT INTO testtable (ID) VALUES (?)";
             conn = DriverManager.getConnection("jdbc:mysql://db4free.net:3306/testchoreo","crootuser","crootuser");
             System.out.println ("Database connection established");
-            result = "Database connection established";
 
             try (PreparedStatement getConsentResourcePreparedStmt =
                          conn.prepareStatement(getConsentResourcePrepStatement)) {
-                String uuid = String.valueOf(UUID.randomUUID());
-                result = "uuid";
+
                 getConsentResourcePreparedStmt.setString(1, uuid);
                 getConsentResourcePreparedStmt.execute();
                 System.out.println ("Database query executed : " + uuid);
-                result = "Database query executed : " + uuid;
             } catch (SQLException throwables) {
-                result = "error 1";
-                throwables.printStackTrace();
+                System.out.println(throwables.getMessage());
             }
         } catch (Exception e) {
-            result = e.getMessage();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         finally
         {
@@ -80,13 +69,11 @@ public class ProductService {
                 {
                     conn.close ();
                     System.out.println ("Database connection terminated");
-                    result = "Database connection terminated";
                 }
                 catch (Exception e) { /* ignore close errors */ }
             }
         }
-        System.out.println("This is a print statement");
-        log.debug("This is a log");
-        return result;
+        System.out.println("Operation completed!");
+        return uuid;
     }
 }
